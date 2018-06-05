@@ -458,12 +458,6 @@ static Class __NSCFBooleanClass = nullptr;
 }
 @end;
 
-@interface NSBlock <NSObject>
-@end;
-
-@interface NSBlock (NSBlockToKotlin) <ConvertibleToKotlin>
-@end;
-
 struct Block_descriptor_1;
 
 // Based on https://clang.llvm.org/docs/Block-ABI-Apple.html and libclosure source.
@@ -544,20 +538,6 @@ static const TypeInfo* getFunctionTypeInfoForBlock(id block) {
 
   return Kotlin_ObjCExport_functionAdaptersToBlock[parameterCount];
 }
-
-@implementation NSBlock (NSBlockToKotlin)
--(ObjHeader*)toKotlin:(ObjHeader**)OBJ_RESULT {
-
-  const TypeInfo* typeInfo = getFunctionTypeInfoForBlock(self);
-  RETURN_RESULT_OF(AllocInstanceWithAssociatedObject, typeInfo, objc_retainBlock(self));
-  // TODO: call (Any) constructor?
-}
-
--(void)releaseAsAssociatedObject {
-  objc_release(self);
-}
-
-@end;
 
 static id Kotlin_ObjCExport_refToObjC_slowpath(ObjHeader* obj);
 
